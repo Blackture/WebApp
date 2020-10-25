@@ -1,0 +1,15 @@
+<% projects.forEach(function(proj) { %>
+<h4 class="small font-weight-bold"><input style="width: 25%; float:left;" class="form-control" type="text"
+        placeholder="<%= proj.name %>" name="pname"><input class="form-control" type="text"
+        placeholder="<%= proj.progress %>" name="pprogress" style="width: 25%; margin-left: 75%;"></span></h4>
+<div class="progress mb-4">
+    <div class="progress-bar bg-success" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" id="progress">
+        <span class="sr-only"><%= proj.progress %></span></div>
+</div>
+<script>
+    var breite = "<%= proj.progress %>" + "%";
+    var rnd = Math.random();
+    document.getElementById("progress").id = rnd;
+    document.getElementById(rnd).style.width = breite;
+</script>
+<% }); %>

@@ -1,0 +1,4 @@
+<% if (user.accountType == "admin" || user.projectAccess == "all:admin") { %>
+<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="/dashboard_change">Change</a>
+<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="/register_project">Add</a>
+<% } %>

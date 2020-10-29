@@ -6,9 +6,7 @@ const { render } = require('ejs');
 
 //login page
 router.get('/', (req, res) => {
-    res.render('welcome', {
-        title: "Welcome"
-    });
+    res.redirect('/users/login');
 })
 //register page
 router.get('/register', (req, res) => {

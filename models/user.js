@@ -38,11 +38,12 @@ const UserScheme = new mongoose.Schema({
     },
     profileIMG: {
         type: String,
-        required: false
+        required: true,
+        default: "https://drive.google.com/u/1/uc?id=1pXXu6HLh8TnUFGveGZyWNH-QWMXKfO0W&export=download"
     },
     projectAccess: { //projetName:projectAccessLevel;projetName:projectAccessLevel;... or all:projectAccessLevel or none
         type: String,
-        required: false,
+        required: true,
         default: "none"
     },
     date: {

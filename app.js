@@ -6,6 +6,7 @@ const expressEjsLayout = require('express-ejs-layouts')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const port = process.env.PORT || 3000
 require("./config/passport")(passport)
 //mongoose
 //const MongoClient = require('mongodb').MongoClient;
@@ -48,5 +49,6 @@ app.use(session({
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
 app.use(express.static(__dirname + '/assets'));
-
-app.listen(65535); 
+app.listen(port, function() {
+  console.log("Server started successfully");
+}); 

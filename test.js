@@ -58,12 +58,39 @@ if (errors.length > 0) {
 const Project = require("../models/project.js")
 const queryAllProjects = () => {
     //Where User is you mongoose user model
-    Project.find({} , (err, projects) => {
-        if(err) //do something...
-        {}
+    Project.find({}, (err, projects) => {
+        if (err) //do something...
+        { }
 
         projects.map(user => {
             //Do somethign with tha
         })
     })
 }
+
+projects.forEach(function (proj) {
+    var projAccesses = user.projectAccess;
+    var accessLevel = 0;
+    var projectAccesses = projAccesses.split(';');
+    projectAccesses.forEach(function (access) {
+        if (access.includes("Devils-Hunt")) {
+            var splAccess = access.split(':');
+            if (splAccess[1].includes("0")) {
+                accessLevel = 0
+            }
+            if (splAccess[1].includes("1")) {
+                accessLevel = 1
+            }
+            if (splAccess[1].includes("2")) {
+                accessLevel = 2
+            }
+            if (splAccess[1].includes("3")) {
+                accessLevel = 3
+            }
+        }
+    });
+    if (accessLevel >= 1 || user.accountType == "admin" || user.projectAccess == "all:admin") {
+        if (user.accountType == "admin" || user.projectAccess == "all:admin" || projectAccess >= 2) {
+        }
+    }
+});

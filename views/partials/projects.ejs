@@ -1,8 +1,45 @@
 <% projects.forEach(function(proj) { %>
-<h4 class="small font-weight-bold"><%= proj.name %><span class="float-right"><%= proj.progress %>%</span></h4>
+<% var projAccesses = user.projectAccess; %>
+<% var accessLevel = 0; %>
+<% var projectAccesses = projAccesses.split(';'); %>
+
+<% projectAccesses.forEach(function(access) { %>
+    <% if (access.includes("Devils-Hunt")) { %>
+        <% var splAccess = access.split(':'); %>
+        <% if (splAccess[1].includes("0")) { %>
+        <% accessLevel = 0; %>
+        <% } %> 
+        <% if (splAccess[1].includes("1")) { %> 
+        <% accessLevel = 1; %> 
+        <% } %> 
+        <% if (splAccess[1].includes("2")) { %>
+        <% accessLevel = 2; %>
+        <% } %>
+        <% if (splAccess[1].includes("3")) { %>
+        <% accessLevel = 3; %>
+        <% } %>
+    <% } %>
+<% }); %> 
+
+<% if (accessLevel >= 1 || user.accountType == "admin" || user.projectAccess == "all:admin") { %> 
+<h4 class="small font-weight-bold"><%= proj.name %>
+    <% if (!proj.state.includes("NoRelease")) { %>
+        <% var projState = proj.state; %> 
+        <% var projStateArray = projState.split(':'); %>
+        <% if (projStateArray[1] == "open") { %>
+            <% if (accessLevel >= 2) { %>
+                <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
+            <% } %>
+        <% } else if (user.accountType == "admin" || user.projectAccess == "all:admin") { %>
+            <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
+        <% } %>
+    <% } %>
+    <span class="float-right"><%= proj.progress %>%</span></h4>
 <div class="progress mb-4">
-    <div class="progress-bar bg-success" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 100%;" id="progress">
-        <span class="sr-only"><%= proj.progress %></span></div>
+    <div class="progress-bar bg-success" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"
+        id="progress">
+        <span class="sr-only"><%= proj.progress %></span>
+    </div>
 </div>
 <script>
     var breite = "<%= proj.progress %>" + "%";
@@ -10,4 +47,5 @@
     document.getElementById("progress").id = rnd;
     document.getElementById(rnd).style.width = breite;
 </script>
+<% } %>
 <% }); %>

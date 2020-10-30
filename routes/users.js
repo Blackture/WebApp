@@ -21,6 +21,23 @@ router.get('/register', (req, res) => {
 //Register handle
 router.post('/register', (req, res) => {
     const { username, firstname, lastname, address, city, country, email, password, password2 } = req.body;
+    var projectsAccess = "";
+    Project.find({}, (err, projects) => {
+        projects.forEach(function (project) {
+            var state = project.state;
+            var splState = state.split(':');
+            var projName = project.name;
+            var _projName = projName.replace(" ", "-");
+            var visibility = project.visibility;
+            if (splState[1] == "open") {
+                projectsAccess += _projName + ":2"
+            } else if (visibility == "Public"){
+                projectsAccess += _projName + ":1"
+            } else {
+                projectsAccess += _projName + ":0"
+            }
+        })
+    });
     let errors = [];
     console.log(' Name: ' + username + ' email :' + email + ' pass:' + password);
     if (!country || !username || !firstname || !lastname || !email || !password || !password2) {

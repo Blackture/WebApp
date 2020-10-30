@@ -3,6 +3,7 @@ const router = express.Router();
 const { ensureAuthenticated } = require("../config/auth.js");
 const Project = require('../models/project.js');
 const { render } = require('ejs');
+const { strictEqual } = require('assert');
 
 //login page
 router.get('/', (req, res) => {
@@ -24,10 +25,13 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
-    res.render('profile', {
-        user: req.user,
-        title: "Profile"
-    });
+    Project.find({}, (err, projects) => {
+        res.render('profile', {
+            user: req.user,
+            title: "Profile",
+            projects: projects
+        });
+    })
 })
 
 router.get('/register_project', ensureAuthenticated, (req, res) => {
@@ -38,7 +42,7 @@ router.get('/register_project', ensureAuthenticated, (req, res) => {
 })
 
 router.post('/register_project', (req, res) => {
-    const { name, iconUrl, progress, version } = req.body;
+    const { name, iconUrl, progress, version, state, downloadUrl } = req.body;
     let errors = [];
     if (!name || !progress || !version) {
         errors.push("Pleasy fill in at least the name, progress and version!")
@@ -53,7 +57,9 @@ router.post('/register_project', (req, res) => {
                     name: name,
                     iconUrl: iconUrl,
                     progress: progress,
-                    version: version
+                    version: version,
+                    state: state,
+                    downloadUrl: downloadUrl
                 });
                 newProject.save()
                     .then(() => {

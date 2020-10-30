@@ -7,6 +7,8 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const port = process.env.PORT || 3000
+const favicon = require('serve-favicon');
+const path = require('path');
 require("./config/passport")(passport)
 //mongoose
 //const MongoClient = require('mongodb').MongoClient;
@@ -17,7 +19,6 @@ client.connect(err => {
   // perform actions on the collection object
   client.close();
 });*/
-
 mongoose.connect("mongodb+srv://dbBlackture:BlaH4r321@users.2mrzz.mongodb.net/bxs?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log('connected,,'))
 .catch((err)=> console.log(err));
@@ -25,6 +26,7 @@ mongoose.connect("mongodb+srv://dbBlackture:BlaH4r321@users.2mrzz.mongodb.net/bx
 app.set('view engine','ejs');
 app.set('view cache', false);
 app.use(expressEjsLayout);
+app.use(favicon(path.join(__dirname, 'assets', 'img', 'favicon.ico')));
 //BodyParser
 app.use(express.urlencoded({extended : false}));
 

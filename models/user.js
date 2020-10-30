@@ -41,7 +41,7 @@ const UserScheme = new mongoose.Schema({
         required: true,
         default: "https://drive.google.com/u/1/uc?id=1pXXu6HLh8TnUFGveGZyWNH-QWMXKfO0W&export=download"
     },
-    projectAccess: { //projetName:projectAccessLevel;projetName:projectAccessLevel;... or all:projectAccessLevel or none
+    projectAccess: { //projetName(noWhiteSpaces(-)):(int)projectAccessLevel;projetName:projectAccessLevel;... or all:projectAccessLevel or none //0 is none; 1 is show; 2 is download
         type: String,
         required: true,
         default: "none"

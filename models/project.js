@@ -7,7 +7,7 @@ const ProjectScheme = new mongoose.Schema({
     iconUrl: {
         type: String,
         required: false,
-        default: "none"
+        default: "https://drive.google.com/u/1/uc?id=1pXXu6HLh8TnUFGveGZyWNH-QWMXKfO0W&export=download"
     },
     progress: { //in percent
         type: String,
@@ -17,6 +17,20 @@ const ProjectScheme = new mongoose.Schema({
     version: { //in percent
         type: String,
         required: true
+    },
+    state: {
+        type: String,
+        required: true,
+        default: "NoReleases"
+    },
+    downloadUrl: {
+        type: String,
+        required: false
+    },
+    visibility: {
+        type: String,
+        required: true,
+        default: "Public" //the other one is Private
     },
     date: {
         type: Date,

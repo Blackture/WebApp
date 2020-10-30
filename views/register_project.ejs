@@ -72,19 +72,29 @@
         <%- include ('./partials/messages') %>
         <div class="form-group text-dark"><input class="form-control" type="text" name="name" placeholder="Project Name"
             required=""></div>
-        <div class="form-group text-dark"><input class="form-control" type="url" name="iconUrl"
-            placeholder="Icon URL"></div>
+        <div class="form-group text-dark"><input class="form-control" type="text" name="visibility" placeholder="Visibility (Private or Public)" pattern="(\bPublic\b|\bPrivate\b)"
+            required=""></div>
+        <div class="form-group text-dark"><input class="form-control" type="url" name="iconUrl" placeholder="Icon URL"
+            pattern="((https:\/\/.+)|(http:\/\/.+))">
+        </div>
         <div class="form-group text-dark"><input class="form-control" type="number" name="progress"
             placeholder="Progress" required=""></div>
         <div class="form-group text-dark"><input class="form-control" type="text" name="version" placeholder="Version"
             required="" pattern="^[0-9]+\.[0-9]+(\.[0-9])*([a-zA-Z]){0,1}$"></div>
+        <div class="form-group text-dark"><input class="form-control" type="text" name="state"
+            placeholder="The State (e.g.: Pre-Alpha::open)" required=""
+            pattern="^(\bNoRelease\b|\bPre-Alpha\b|\bAlpha\b|\bPre-Beta\b|\bBeta\b|\bPre-Release\b|\bFinalRelease\b):(\bopen\b|\bclosed\b)$">
+        </div>
+        <div class="form-group text-dark"><input class="form-control" type="url" name="downloadUrl"
+            placeholder="Download URL" required="" pattern="((https:\/\/.+)|(http:\/\/.+))"></div>
         <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox"
-                id="itogBtn">I agree to the license terms.</label></div>
-        <div class="form-group"><button class="btn btn-primary btn-block" id="isub" type="submit" disabled="">Register Project</button>
+              id="itogBtn">I agree to the license terms.</label></div>
+        <div class="form-group"><button class="btn btn-primary btn-block" id="isub" type="submit" disabled="">Register
+            Project</button>
         </div><a class="text-white already" href="/dashboard">Click here to cancel</a>
-      </div>
-      </form>
     </div>
+    </form>
+  </div>
   </div>
   <script src="/js/jquery.min.js"></script>
   <script src="/bootstrap/js/bootstrap.min.js"></script>

@@ -3,7 +3,7 @@ const router = express.Router();
 const { ensureAuthenticated } = require("../config/auth.js");
 const Project = require('../models/project.js');
 const { render } = require('ejs');
-const { strictEqual } = require('assert');
+const botStopViaWebInterface = require('../discord_bot/src/commands/stopViaWebInterface');
 
 //login page
 router.get('/', (req, res) => {
@@ -12,6 +12,38 @@ router.get('/', (req, res) => {
 //register page
 router.get('/register', (req, res) => {
     res.render('register');
+})
+
+router.get('/bot', ensureAuthenticated, (req, res) => {
+    //console.log("got sth")
+    res.render('bot', {
+        user: req.user,
+        title: "bot"
+    });
+})
+
+router.get('/bot_stop', ensureAuthenticated, (req, res) => {
+    //console.log("got sth")
+    res.render('bot_stop', {
+        user: req.user,
+        title: "bot stop",
+        res : res,
+        botStopViaWebInterface: botStopViaWebInterface
+    });
+})
+
+router.get('/bot_start', ensureAuthenticated, (req, res) => {
+    var exec = require('child_process').exec;
+    console.log("got sth")
+    function puts(error, stdout, stderr) { sys.puts(stdout) }
+    exec("node discord_bot", function (error, stdout, stderr) {
+        if (!error) {
+            console.log(stdout)
+        } else {
+            console.log(stderr)
+        }
+    });
+    res.redirect('/bot');
 })
 
 router.get('/dashboard', ensureAuthenticated, (req, res) => {

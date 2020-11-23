@@ -1,0 +1,107 @@
+<% var accountLvl = 0; %>
+<% var accountLvl = (user.accountType == 'owner') ? 0 : (user.accountType == 'admin') ? 1 : (user.accountType == 'developer') ? 2 : (user.accountType == 'mod') ? 3 : (user.accountType == 'tester') ? 4 : (user.accountType == 't-sub/yt-member') ? 5 : (user.accountType == 't-follower/yt-sub') ? 6 : (user.accountType == 'five-year-member') ? 7 : (user.accountType == 'one-year-member') ? 8 : (user.accountType == 'normal') ? 9 : 10; %>
+<% users.forEach(function(usr) { %>
+<% var object_id_num = Math.round(Math.random() * 100000000000000); %>
+<% var object_id_cb = "cb" + object_id_num.toString(); %>
+<% var object_id_tb = "tb" + object_id_num.toString(); %>
+<% var object_id_dd = "dd" + object_id_num.toString(); %>
+<% var object_id_ddT = "ddT" + object_id_num.toString(); %>
+<% var usr_accountType = usr.accountType; %>
+<% var usr_title = usr.title; %>
+<tr>
+    <td>
+        <div class="custom-control custom-checkbox epischerToggle"><input class="custom-control-input" type="checkbox" id="<%= object_id_cb %>"
+                disabled=""><label class="custom-control-label" for="<%= object_id_cb %>"></label></div>
+    </td>
+    <% if (usr.title == "") { %>
+        <td><img class="rounded-circle mr-2" width="30" height="30" src="<%= usr.profileIMG %>"><%= usr.username %></td>
+    <% } else { %>
+        <td><img class="rounded-circle mr-2" width="30" height="30" src="<%= usr.profileIMG %>"><%= usr.username %> <select id="<%= object_id_ddT %>" style="height: 33px; width: fit-content;" onchange="edited('ddT', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+            class="form-control form-control-sm custom-select custom-select-sm">
+            <% var titles = usr.titles.split(';'); %>
+            <option value="<%= usr.title %>" selected=""><%= usr.title %></option>
+            <% titles.forEach(function(title) { %>
+                <% var t = title.replace(';', ''); %>
+                <% if (t != usr.title && t.trim() != "") { %>
+                    <option value="<%= t %>"><%= t %></option>
+                <% } %>
+            <% }) %>
+        </select></td>
+    <% } %>
+    <td><%= usr.firstname %> <%= usr.lastname %></td>
+    <td><%= usr.email %></td>
+    <% var usr_accountLvl = 0; %>
+    <% var usr_accountLvl = (usr.accountType == 'owner') ? 0 : (usr.accountType == 'admin') ? 1 : (usr.accountType == 'developer') ? 2 : (usr.accountType == 'mod') ? 3 : (usr.accountType == 'tester') ? 4 : (usr.accountType == 't-sub/yt-member') ? 5 : (usr.accountType == 't-follower/yt-sub') ? 6 : (usr.accountType == 'five-year-member') ? 7 : (usr.accountType == 'one-year-member') ? 8 : (usr.accountType == 'normal') ? 9 : 10; %>
+    <% if (usr_accountLvl == 0) { %>
+        <td><select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+                class="form-control form-control-sm custom-select custom-select-sm" disabled="">
+                <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
+            </select></td>    
+    <% } else if (usr_accountLvl == 1 && accountLvl == 0) { %>
+    <td><select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+            class="form-control form-control-sm custom-select custom-select-sm">
+            <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
+            <option value="developer">Developer</option>
+            <option value="mod">Mod</option>
+            <option value="tester">Tester</option>
+            <option value="t-sub/yt-member">Twitch-Subscriper/YouTube-Member</option>
+            <option value="t-follower/yt-sub">Twitch-Follower/YouTube-Subscriber</option>
+            <option value="five-year-member">Five-Year-Member</option>
+            <option value="one-year-member">One-Year-Member</option>
+            <option value="normal">Normal</option>
+        </select></td>
+    <% } else if (usr_accountLvl == 1 && accountLvl == 1) { %>
+        <td><select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+            class="form-control form-control-sm custom-select custom-select-sm" disabled="">
+            <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
+            <option value="developer">Developer</option>
+            <option value="mod">Mod</option>
+            <option value="tester">Tester</option>
+            <option value="t-sub/yt-member">Twitch-Subscriper/YouTube-Member</option>
+            <option value="t-follower/yt-sub">Twitch-Follower/YouTube-Subscriber</option>
+            <option value="five-year-member">Five-Year-Member</option>
+            <option value="one-year-member">One-Year-Member</option>
+            <option value="normal">Normal</option>
+        </select></td>
+    <% } else if (usr_accountLvl > 1 && accountLvl == 0 ) { %>
+    <td>    <select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+            class="form-control form-control-sm custom-select custom-select-sm">
+            <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
+            <option value="admin">Admin</option>
+            <option value="developer">Developer</option>
+            <option value="mod">Mod</option>
+            <option value="tester">Tester</option>
+            <option value="t-sub/yt-member">Twitch-Subscriper/YouTube-Member</option>
+            <option value="t-follower/yt-sub">Twitch-Follower/YouTube-Subscriber</option>
+            <option value="five-year-member">Five-Year-Member</option>
+            <option value="one-year-member">One-Year-Member</option>
+            <option value="normal">Normal</option>
+        </select></td>
+    <% } else if (usr_accountLvl > 1 && accountLvl == 1 ) { %>
+    <td>    <select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+            class="form-control form-control-sm custom-select custom-select-sm">
+            <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
+            <option value="developer">Developer</option>
+            <option value="mod">Mod</option>
+            <option value="tester">Tester</option>
+            <option value="t-sub/yt-member">Twitch-Subscriper/YouTube-Member</option>
+            <option value="t-follower/yt-sub">Twitch-Follower/YouTube-Subscriber</option>
+            <option value="five-year-member">Five-Year-Member</option>
+            <option value="one-year-member">One-Year-Member</option>
+            <option value="normal">Normal</option>
+        </select></td>
+    <% } %>
+    <td><%= usr.country %></td>
+    <td><%= usr.date.toUTCString().replace(RegExp("[0-9]{2}:[0-9]{2}:[0-9]{2} "), "") %></td>
+    <% if (usr_accountLvl >= 1 && accountLvl == 1) { %>
+        <td><input id="<%= object_id_tb %>" onchange="edited('tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
+                placeholder="Enter changes here" name="pw_change"></td>
+    <% } else if (usr_accountLvl >= 0 && accountLvl == 0) { %>
+        <td><input id="<%= object_id_tb %>" onchange="edited('tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
+            placeholder="Enter changes here" name="pw_change"></td>
+    <% } else { %>
+        <td><input id="<%= object_id_tb %>" onchange="edited('tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
+            placeholder="Enter changes here" name="pw_change" disabled=""></td>
+    <% } %>
+</tr>
+<% }) %>

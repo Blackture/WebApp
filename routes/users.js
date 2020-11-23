@@ -20,7 +20,7 @@ router.get('/register', (req, res) => {
 
 //Register handle
 router.post('/register', (req, res) => {
-    const { username, firstname, lastname, address, city, country, email, password, password2 } = req.body;
+    const { username, firstname, lastname, address, city, country, email, password, password2, profileIMG } = req.body;
     var projectsAccess = "";
     Project.find({}, (err, projects) => {
         projects.forEach(function (project) {
@@ -46,6 +46,14 @@ router.post('/register', (req, res) => {
     //check if match
     if (password != password2) {
         errors.push({ msg: "passwords dont match" });
+    }
+
+    var profileIcon = "";
+
+    if (profileIMG == "") {
+        profileIcon = "https://www.dropbox.com/s/ifh36g03qqr1n4a/question_mark.png?dl=1";
+    } else {
+        profileIcon = profileIMG;
     }
 
     //check if password is more than 6 characters
@@ -83,7 +91,9 @@ router.post('/register', (req, res) => {
                     accountType: "normal",
                     address: address,
                     city: city,
-                    country: country
+                    country: country,
+                    profileIMG: profileIcon,
+                    projectAccess: projectsAccess
                 });
                 //hash password
                 bcrypt.genSalt(10, (err, salt) =>

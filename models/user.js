@@ -21,8 +21,18 @@ const UserScheme = new mongoose.Schema({
         required: true
     },
     accountType: {
+        type: String,   //owner, admin, developer, mod, tester, t-sub/yt-member, t-follower/yt-sub, five-year-member, one-year-member, normal
+        required: true  // 0       1       2        3     4            5               6                   7                 8           9
+    },
+    title: {
         type: String,
-        required: true
+        required: false,
+        default: ""
+    },
+    titles: {
+        type: String,
+        required: false,
+        default: "" //seperated by a simicolon
     },
     address: {
         type: String,

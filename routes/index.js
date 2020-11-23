@@ -4,6 +4,7 @@ const { ensureAuthenticated } = require("../config/auth.js");
 const Project = require('../models/project.js');
 const { render } = require('ejs');
 const botStopViaWebInterface = require('../discord_bot/src/commands/stopViaWebInterface');
+const User = require('../models/user.js');
 
 //login page
 router.get('/', (req, res) => {
@@ -11,7 +12,16 @@ router.get('/', (req, res) => {
 })
 //register page
 router.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register', {
+        title: "Register"
+    });
+})
+
+router.get('/docs', ensureAuthenticated, (req, res) => {
+    res.render('Docs/docs', {
+        user: req.user,
+        title: "Docs"
+    });
 })
 
 router.get('/bot', ensureAuthenticated, (req, res) => {
@@ -26,9 +36,9 @@ router.get('/bot_stop', ensureAuthenticated, (req, res) => {
     //console.log("got sth")
     res.render('bot_stop', {
         user: req.user,
-        title: "bot stop",
         res : res,
-        botStopViaWebInterface: botStopViaWebInterface
+        botStopViaWebInterface: botStopViaWebInterface,
+        title: "bot stop"
     });
 })
 
@@ -56,6 +66,17 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
     });
 })
 
+router.get('/profile_table', ensureAuthenticated, (req, res) => {
+    User.find({}, (err, users) => {
+        res.render('profile_table', {
+            user: req.user,
+            users: users,
+            title: "Profile Table",
+            async: true            
+        });
+    });
+})
+
 router.get('/profile', ensureAuthenticated, (req, res) => {
     Project.find({}, (err, projects) => {
         res.render('profile', {
@@ -70,6 +91,34 @@ router.get('/register_project', ensureAuthenticated, (req, res) => {
     res.render('register_project', {
         user: req.user,
         title: "Register Project"
+    });
+})
+
+router.get('/sync_access', ensureAuthenticated, (req, res) => {
+    Project.find({}, (err, projects) => {
+        projects.forEach(function (project) {
+            var state = project.state;
+            var splState = state.split(':');
+            var projName = project.name;
+            var _projName = projName.replace(" ", "-");
+            var visibility = project.visibility;
+            if (splState[1] == "open") {
+                projectsAccess += _projName + ":2"
+            } else if (visibility == "Public"){
+                projectsAccess += _projName + ":1"
+            } else {
+                projectsAccess += _projName + ":0"
+            }
+            User.find({}, (err, users) => {
+                users.forEach(function (usr) {
+                    usr.projectAccess = projectsAccess;
+                })
+            })
+        })
+    });
+    res.render('register_project', {
+        user: req.user,
+        title: "Synchronize Access"
     });
 })
 
@@ -99,6 +148,27 @@ router.post('/register_project', (req, res) => {
                     })
                     .catch(value => console.log(value));
             }
+        });
+        Project.find({}, (err, projects) => {
+            projects.forEach(function (project) {
+                var state = project.state;
+                var splState = state.split(':');
+                var projName = project.name;
+                var _projName = projName.replace(" ", "-");
+                var visibility = project.visibility;
+                if (splState[1] == "open") {
+                    projectsAccess += _projName + ":2"
+                } else if (visibility == "Public"){
+                    projectsAccess += _projName + ":1"
+                } else {
+                    projectsAccess += _projName + ":0"
+                }
+                User.find({}, (err, users) => {
+                    users.forEach(function (usr) {
+                        usr.projectAccess = projectsAccess;
+                    })
+                })
+            })
         });
     }
 })

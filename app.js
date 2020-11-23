@@ -9,6 +9,7 @@ const passport = require('passport');
 const port = process.env.PORT || 3000
 const favicon = require('serve-favicon');
 const path = require('path');
+const { ensureAuthenticated } = require('./config/auth');
 require("./config/passport")(passport)
 //mongoose
 //const MongoClient = require('mongodb').MongoClient;
@@ -51,6 +52,20 @@ app.use(session({
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
 app.use(express.static(__dirname + '/assets'));
+
+app.get('*', ensureAuthenticated, function(req, res){
+  res.render('404_auth', {
+    user: req.user,
+    title: 'Error 404'
+  })
+});
+
+app.get('*', function(req, res){
+  res.render('404', {
+    title: 'Error 404'
+  })
+});
+
 app.listen(port, function() {
   console.log("Server started successfully");
 }); 

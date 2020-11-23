@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/simple-line-icons.min.css">
 </head>
 </head>
 
@@ -17,8 +19,9 @@
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
             <div class="container-fluid d-flex flex-column p-0">
-                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-text mx-3"><span>BlaXrew Studios</span></div>
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#" style="width: 200px;background: url(&quot;/img/BXS%20LOGO%20TRANSPARENT%20WITH%20TEXT%20WHITE%20FONT.png&quot;) center / cover no-repeat;padding-bottom: 100px;padding-top: 10px;">
+                    <div class="sidebar-brand-icon rotate-n-15"></div>
+                    <div class="sidebar-brand-text mx-3"></div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
@@ -26,7 +29,9 @@
                                 class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/profile"><i
                                 class="fas fa-user"></i><span>Profile</span></a></li>
-                    <li class="nav-item"></li>
+                    <%- include ('./partials/show_profile_table') %>
+                    <%- include ('./partials/show_bot') %>
+                    <%- include ('./partials/show_docs') %>
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
                 </ul>

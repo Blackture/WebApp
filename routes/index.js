@@ -71,8 +71,7 @@ router.get('/profile_table', ensureAuthenticated, (req, res) => {
         res.render('profile_table', {
             user: req.user,
             users: users,
-            title: "Profile Table",
-            async: true            
+            title: "Profile Table"            
         });
     });
 })

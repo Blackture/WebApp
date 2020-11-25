@@ -93,6 +93,59 @@ router.get('/register_project', ensureAuthenticated, (req, res) => {
     });
 })
 
+router.get('/change_project', ensureAuthenticated, (req, res, next) => {
+    Project.find({}, (err, projects) => {
+        res.render('change_project', {
+            user: req.user,
+            title: "Change Project",
+            query: req.query,
+            projects: projects
+        });
+    })
+})
+
+router.post('/change_project', ensureAuthenticated, (req, res) => {
+    const { id, name, visibility, iconUrl, progress, version, state, downloadUrl } = req.body;
+    let errors = [];
+    if (!name || !progress || !version) {
+        errors.push("Pleasy fill in at least the name, progress and version!")
+    }
+    if (errors.length <= 0) {
+        Project.findOne({ _id: id }).exec((err, project) => {
+            if (!project) {
+                errors.push({ msg: 'Project does not exist' });
+                render(res, errors, name, progress, version);
+            } else {
+                const newProject = new Project({
+                    name: name,
+                    visibility: visibility,
+                    iconUrl: iconUrl,
+                    progress: progress,
+                    version: version,
+                    state: state,
+                    downloadUrl: downloadUrl
+                });
+                var newProjectData = {
+                    name: name,
+                    visibility: visibility,
+                    iconUrl: iconUrl,
+                    progress: progress,
+                    version: version,
+                    state: state,
+                    downloadUrl: downloadUrl
+                }
+                project.updateOne({_id: id}, newProjectData, {upsert:false}, function (err, doc) {
+                    if (err) console.log(err);
+                })
+                    .then(() => {
+                        res.redirect('/dashboard');
+                    })
+                    .catch(value => { console.log(value); res.redirect('/dashboard'); });
+            }
+        });
+    }
+})
+
 router.get('/sync_access', ensureAuthenticated, (req, res) => {
     Project.find({}, (err, projects) => {
         projects.forEach(function (project) {
@@ -115,14 +168,14 @@ router.get('/sync_access', ensureAuthenticated, (req, res) => {
             })
         })
     });
-    res.render('register_project', {
+    res.render('/dashboard', {
         user: req.user,
         title: "Synchronize Access"
     });
 })
 
 router.post('/register_project', (req, res) => {
-    const { name, iconUrl, progress, version, state, downloadUrl } = req.body;
+    const { name, visibility, iconUrl, progress, version, state, downloadUrl } = req.body;
     let errors = [];
     if (!name || !progress || !version) {
         errors.push("Pleasy fill in at least the name, progress and version!")
@@ -135,6 +188,7 @@ router.post('/register_project', (req, res) => {
             } else {
                 const newProject = new Project({
                     name: name,
+                    visibility: visibility,
                     iconUrl: iconUrl,
                     progress: progress,
                     version: version,

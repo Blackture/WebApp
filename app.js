@@ -60,7 +60,20 @@ app.get('*', ensureAuthenticated, function(req, res){
   })
 });
 
+app.post('*', ensureAuthenticated, function(req, res){
+  res.render('404_auth', {
+    user: req.user,
+    title: 'Error 404'
+  })
+});
+
 app.get('*', function(req, res){
+  res.render('404', {
+    title: 'Error 404'
+  })
+});
+
+app.post('*', function(req, res){
   res.render('404', {
     title: 'Error 404'
   })

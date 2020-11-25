@@ -68,28 +68,39 @@
       <div class="image-holder" style="background: url(&quot;/img/image0005%20-%20Kopie.png&quot;) center / auto;">
       </div>
       <form class="text-white bg-dark" method="post">
-        <h2 class="text-center"><strong>Create</strong> a project.</h2>
+        <h2 class="text-center"><strong>Change</strong> a project.</h2>
         <%- include ('./partials/messages') %>
-        <div class="form-group text-dark"><input class="form-control" type="text" name="name" placeholder="Project Name"
+        <% var project; %>
+        <% projects.forEach(function(proj) {  %>
+          <% if (proj._id == query.id) { %>
+            <% project = proj %>
+          <% } %>
+        <% }) %>
+        <script>
+          //alert("<%= query.id %>")
+        </script>
+        <div class="form-group text-dark"><input class="form-control" type="text" name="id" placeholder="Project ID" value="<%= project._id %>"
+            required="" disabled=""></div>
+        <div class="form-group text-dark"><input class="form-control" type="text" name="name" placeholder="Project Name" value="<%= project.name %>"
             required=""></div>
         <div class="form-group text-dark"><input class="form-control" type="text" name="visibility" placeholder="Visibility (Private or Public)" pattern="(\bPublic\b|\bPrivate\b)"
-            required=""></div>
+            required="" value="<%= project.visibility %>"></div>
         <div class="form-group text-dark"><input class="form-control" type="url" name="iconUrl" placeholder="Icon URL"
-            pattern="((https:\/\/.+)|(http:\/\/.+))">
+            pattern="((https:\/\/.+)|(http:\/\/.+))" value="<%= project.iconUrl %>">
         </div>
         <div class="form-group text-dark"><input class="form-control" type="number" name="progress"
-            placeholder="Progress" required=""></div>
+            placeholder="Progress" required="" value="<%= project.progress %>"></div>
         <div class="form-group text-dark"><input class="form-control" type="text" name="version" placeholder="Version"
-            required="" pattern="^[0-9]+\.[0-9]+(\.[0-9])*([a-zA-Z]){0,1}$"></div>
+            required="" pattern="^[0-9]+\.[0-9]+(\.[0-9])*([a-zA-Z]){0,1}$" value="<%= project.version %>"></div>
         <div class="form-group text-dark"><input class="form-control" type="text" name="state"
             placeholder="The State (e.g.: Pre-Alpha::open)" required=""
-            pattern="^(\bNoRelease\b|\bPre-Alpha\b|\bAlpha\b|\bPre-Beta\b|\bBeta\b|\bPre-Release\b|\bFinalRelease\b):(\bopen\b|\bclosed\b)$">
+            pattern="^(\bNoRelease\b|\bPre-Alpha\b|\bAlpha\b|\bPre-Beta\b|\bBeta\b|\bPre-Release\b|\bFinalRelease\b):(\bopen\b|\bclosed\b)$" value="<%= project.state %>">
         </div>
         <div class="form-group text-dark"><input class="form-control" type="url" name="downloadUrl"
-            placeholder="Download URL" required="" pattern="((https:\/\/.+)|(http:\/\/.+))"></div>
+            placeholder="Download URL" required="" pattern="((https:\/\/.+)|(http:\/\/.+))" value="<%= project.downloadUrl %>"></div>
         <div class="form-check"><label class="form-check-label"><input class="form-check-input" type="checkbox"
               id="itogBtn">I agree to the license terms.</label></div>
-        <div class="form-group"><button class="btn btn-primary btn-block" id="isub" type="submit" disabled="">Register
+        <div class="form-group"><button class="btn btn-primary btn-block" id="isub" type="submit" disabled="">Change
             Project</button>
         </div><a class="text-white already" href="/dashboard">Click here to cancel</a>
     </div>

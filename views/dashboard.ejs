@@ -223,9 +223,6 @@
                                     <%   status_data[1]++; %> 
                                     <% } else if (project.progress > 75) { status_data[0]++; } %>
                                 <% }) %>
-                                <script>
-                                    window.alert('<%= status_data[0] %>')
-                                </script>
                                 <div class="chart-area"><canvas data-bs-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Released-Status&quot;,&quot;Development-Status&quot;,&quot;Planning-Status&quot;,&quot;Idea-Status&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#1cc88a&quot;,&quot;#4e73df&quot;,&quot;#36b9cc&quot;,&quot;#f6c23e&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;<%= status_data[0] %>&quot;,&quot;<%= status_data[1] %>&quot;,&quot;<%= status_data[2] %>&quot;,&quot;<%= status_data[3] %>&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
                                 <div
                                     class="text-center small mt-4"><span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Released-Status</span><i class="fas fa-circle text-primary"></i>&nbsp;Development-Status</span><span class="mr-2"><span class="mr-2"></span><i class="fas fa-circle text-info"></i>&nbsp;Planning-Status</span><i class="fas fa-circle text-warning"></i>&nbsp;Idea-Status</span></div>

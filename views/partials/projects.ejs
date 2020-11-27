@@ -33,10 +33,10 @@
             <% if (accessLevel >= 2) { %>
                 <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
             <% } %>
-        <% } else if (user.accountType == "admin" || user.projectAccess == "all:admin") { %>
-            <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
+            <% } else if (accountLvl <= 4 || accessLevel >= 3) { %>
+                <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
+            <% } %>
         <% } %>
-    <% } %>
     <% if (accountLvl <= 1) { %>
         <a id="<%= proj._id %>" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="/change_project?id=<%= proj._id %>">Change</a>
     <% } %>

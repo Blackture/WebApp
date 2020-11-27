@@ -20,7 +20,7 @@ client.connect(err => {
   // perform actions on the collection object
   client.close();
 });*/
-mongoose.connect("mongodb+srv://dbBlackture:BlaH4r321@users.2mrzz.mongodb.net/bxs?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://dbBlaXrewStudios:BlaH4r_32@bxs-admin.qii5u.mongodb.net/bxs-admin?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log('connected,,'))
 .catch((err)=> console.log(err));
 //EJS
@@ -30,6 +30,7 @@ app.use(expressEjsLayout);
 app.use(favicon(path.join(__dirname, 'assets', 'img', 'favicon.ico')));
 //BodyParser
 app.use(express.urlencoded({extended : false}));
+app.use(express.json());
 
 //express session
 app.use(session({
@@ -49,7 +50,7 @@ app.use(session({
    })
 
 //Routes
-app.use('/',require('./routes/index'));
+app.use('/',require('./routes/index').router);
 app.use('/users',require('./routes/users'));
 app.use(express.static(__dirname + '/assets'));
 
@@ -63,18 +64,6 @@ app.get('*', ensureAuthenticated, function(req, res){
 app.post('*', ensureAuthenticated, function(req, res){
   res.render('404_auth', {
     user: req.user,
-    title: 'Error 404'
-  })
-});
-
-app.get('*', function(req, res){
-  res.render('404', {
-    title: 'Error 404'
-  })
-});
-
-app.post('*', function(req, res){
-  res.render('404', {
     title: 'Error 404'
   })
 });

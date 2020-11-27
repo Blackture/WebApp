@@ -10,13 +10,15 @@
 <% var usr_title = usr.title; %>
 <tr>
     <td>
-        <div class="custom-control custom-checkbox epischerToggle"><input class="custom-control-input" type="checkbox" id="<%= object_id_cb %>"
+        <input name="id" value="<%= usr._id %>" style="display: none;" readonly=""/>
+        <div class="custom-control custom-checkbox epischerToggle"><input name="toggle" class="custom-control-input <%= usr._id %>" type="checkbox" id="<%= object_id_cb %>"
                 disabled=""><label class="custom-control-label" for="<%= object_id_cb %>"></label></div>
     </td>
     <% if (usr.title == "") { %>
-        <td><img class="rounded-circle mr-2" width="30" height="30" src="<%= usr.profileIMG %>"><%= usr.username %></td>
+        <td><img class="rounded-circle mr-2" width="30" height="30" src="<%= usr.profileIMG %>"><%= usr.username %> <select name="title" id="<%= object_id_ddT %>" style="height: 33px; width: fit-content;" onchange="edited('<%= usr._id %>', 'ddT', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+            class="form-control form-control-sm custom-select custom-select-sm"><option value="<%= usr.title %>" selected=""><%= usr.title %></option></select></td>
     <% } else { %>
-        <td><img class="rounded-circle mr-2" width="30" height="30" src="<%= usr.profileIMG %>"><%= usr.username %> <select id="<%= object_id_ddT %>" style="height: 33px; width: fit-content;" onchange="edited('ddT', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+        <td><img class="rounded-circle mr-2" width="30" height="30" src="<%= usr.profileIMG %>"><%= usr.username %> <select name="title" id="<%= object_id_ddT %>" style="height: 33px; width: fit-content;" onchange="edited('<%= usr._id %>', 'ddT', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
             class="form-control form-control-sm custom-select custom-select-sm">
             <% var titles = usr.titles.split(';'); %>
             <option value="<%= usr.title %>" selected=""><%= usr.title %></option>
@@ -26,19 +28,19 @@
                     <option value="<%= t %>"><%= t %></option>
                 <% } %>
             <% }) %>
-        </select></td>
+         </select></td>
     <% } %>
     <td><%= usr.firstname %> <%= usr.lastname %></td>
     <td><%= usr.email %></td>
     <% var usr_accountLvl = 0; %>
     <% var usr_accountLvl = (usr.accountType == 'owner') ? 0 : (usr.accountType == 'admin') ? 1 : (usr.accountType == 'developer') ? 2 : (usr.accountType == 'mod') ? 3 : (usr.accountType == 'tester') ? 4 : (usr.accountType == 't-sub/yt-member') ? 5 : (usr.accountType == 't-follower/yt-sub') ? 6 : (usr.accountType == 'five-year-member') ? 7 : (usr.accountType == 'one-year-member') ? 8 : (usr.accountType == 'normal') ? 9 : 10; %>
     <% if (usr_accountLvl == 0) { %>
-        <td><select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
-                class="form-control form-control-sm custom-select custom-select-sm" disabled="">
+        <td><select name="AccountType" id="<%= object_id_dd %>" onchange="edited('<%= usr._id %>', 'dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+                class="form-control form-control-sm custom-select custom-select-sm" readonly="">
                 <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
             </select></td>    
     <% } else if (usr_accountLvl == 1 && accountLvl == 0) { %>
-    <td><select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+    <td><select name="AccountType" id="<%= object_id_dd %>" onchange="edited('<%= usr._id %>', 'dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
             class="form-control form-control-sm custom-select custom-select-sm">
             <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
             <option value="developer">Developer</option>
@@ -51,8 +53,8 @@
             <option value="normal">Normal</option>
         </select></td>
     <% } else if (usr_accountLvl == 1 && accountLvl == 1) { %>
-        <td><select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
-            class="form-control form-control-sm custom-select custom-select-sm" disabled="">
+        <td><select name="AccountType" id="<%= object_id_dd %>" onchange="edited('<%= usr._id %>', 'dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+            class="form-control form-control-sm custom-select custom-select-sm" readonly="">
             <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
             <option value="developer">Developer</option>
             <option value="mod">Mod</option>
@@ -64,7 +66,7 @@
             <option value="normal">Normal</option>
         </select></td>
     <% } else if (usr_accountLvl > 1 && accountLvl == 0 ) { %>
-    <td>    <select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+    <td>    <select name="AccountType" id="<%= object_id_dd %>" onchange="edited('<%= usr._id %>', 'dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
             class="form-control form-control-sm custom-select custom-select-sm">
             <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
             <option value="admin">Admin</option>
@@ -78,7 +80,7 @@
             <option value="normal">Normal</option>
         </select></td>
     <% } else if (usr_accountLvl > 1 && accountLvl == 1 ) { %>
-    <td>    <select id="<%= object_id_dd %>" onchange="edited('dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
+    <td>    <select name="AccountType" id="<%= object_id_dd %>" onchange="edited('<%= usr._id %>', 'dd', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"
             class="form-control form-control-sm custom-select custom-select-sm">
             <option value="<%= usr.accountType %>" selected=""><%= usr.accountType %></option>
             <option value="developer">Developer</option>
@@ -94,14 +96,35 @@
     <td><%= usr.country %></td>
     <td><%= usr.date.toUTCString().replace(RegExp("[0-9]{2}:[0-9]{2}:[0-9]{2} "), "") %></td>
     <% if (usr_accountLvl >= 1 && accountLvl == 1) { %>
-        <td><input id="<%= object_id_tb %>" onchange="edited('tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
+        <td><input id="<%= object_id_tb %>" onchange="edited('<%= usr._id %>', 'tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
                 placeholder="Enter changes here" name="pw_change"></td>
     <% } else if (usr_accountLvl >= 0 && accountLvl == 0) { %>
-        <td><input id="<%= object_id_tb %>" onchange="edited('tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
+        <td><input id="<%= object_id_tb %>" onchange="edited('<%= usr._id %>', 'tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
             placeholder="Enter changes here" name="pw_change"></td>
     <% } else { %>
-        <td><input id="<%= object_id_tb %>" onchange="edited('tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
-            placeholder="Enter changes here" name="pw_change" disabled=""></td>
+        <td><input id="<%= object_id_tb %>" onchange="edited('<%= usr._id %>', 'tb', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" class="form-control" style="height: 33px;" type="password"
+            placeholder="Enter changes here" name="pw_change" readonly=""></td>
+    <% } %>
+    <% if (usr_accountLvl == 0) { %>
+        <td><button id="<%= object_id_dd %>" onclick="javascript:if(confirm('Are you sure you want to delete the \'<%= usr.username %>\'')){ window.location.href='/delUsr?id=<%= usr._id %>' }" style="height: 33px;"
+            class="form-control form-control-sm btn btn-danger btn-sm" type="button" disabled="">X
+        </button></td>
+    <% } else if (usr_accountLvl == 1 && accountLvl == 0) { %>
+        <td><button id="<%= object_id_dd %>" onclick="javascript:if(confirm('Are you sure you want to delete the \'<%= usr.username %>\'')){ window.location.href='/delUsr?id=<%= usr._id %>' }" style="height: 33px;"
+            class="form-control form-control-sm btn btn-danger btn-sm" type="button">X
+        </button></td>
+    <% } else if (usr_accountLvl == 1 && accountLvl == 1) { %>
+        <td><button id="<%= object_id_dd %>" onclick="javascript:if(confirm('Are you sure you want to delete the \'<%= usr.username %>\'')){ window.location.href='/delUsr?id=<%= usr._id %>' }" style="height: 33px;"
+            class="form-control form-control-sm btn btn-danger btn-sm" type="button" disabled="">X
+        </button></td>
+    <% } else if (usr_accountLvl > 1 && accountLvl == 0 ) { %>
+        <td><button id="<%= object_id_dd %>" onclick="javascript:if(confirm('Are you sure you want to delete the \'<%= usr.username %>\'')){ window.location.href='/delUsr?id=<%= usr._id %>' }" style="height: 33px;"
+            class="form-control form-control-sm btn btn-danger btn-sm" type="button">X
+        </button></td>
+    <% } else if (usr_accountLvl > 1 && accountLvl == 1 ) { %>
+    <td><button id="<%= object_id_dd %>" onclick="javascript:if(confirm('Are you sure you want to delete the account of \'<%= usr.username %>\'')){ window.location.href='/delUsr?id=<%= usr._id %>' } else { window.location.href='/profile_table' }" style="height: 33px;"
+            class="form-control form-control-sm btn btn-danger btn-sm" type="button">X
+        </button></td>
     <% } %>
 </tr>
 <% }) %>

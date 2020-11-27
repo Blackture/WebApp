@@ -200,12 +200,13 @@
                                                 <th>Country</th>
                                                 <th>Start date</th>
                                                 <th>Password</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody id="myTable">
                                             <%- include ('./partials/profile_tds') %>
                                             <script>
-                                                function edited(inputType, object_id_dd = "", object_id_ddT = "", object_id_tb = "", object_id_cb = "", usr_accountType = "", usr_title = "") {
+                                                function edited(oid, inputType, object_id_dd = "", object_id_ddT = "", object_id_tb = "", object_id_cb = "", usr_accountType = "", usr_title = "") {
                                                     if (inputType == 'tb') {
                                                             if ($('#' + object_id_tb).val() != "") {
                                                                 document.querySelector('#' + object_id_cb).checked = true;
@@ -238,6 +239,7 @@
                                                 <td><strong>Country</strong></td>
                                                 <td><strong>Start date</strong></td>
                                                 <td><strong>Password</strong></td>
+                                                <td><strong></strong></td>
                                             </tr>
                                         </tfoot>
                                     </table>

@@ -1,4 +1,4 @@
-const discordToken = 'NzI3NjA4MzA2NTQ1MTk3MTA3.XvuUCg.RAjb0SmPlp8nL5wUx7j1ianHuv4';
+const discordToken = 'NzI3NjA4MzA2NTQ1MTk3MTA3.XvuUCg.7GulknncsMapUxo1HkLbkIaeFKU';
 const prefix = '.';
 const commands = [
     'stop',

@@ -9,7 +9,7 @@
 <% var usr_accountType = usr.accountType; %>
 <% var usr_title = usr.title; %>
 <tr>
-    <td>
+    <td style="display: none;">
         <input name="id" value="<%= usr._id %>" style="display: none;" readonly=""/>
         <div class="custom-control custom-checkbox epischerToggle"><input name="toggle" class="custom-control-input <%= usr._id %>" type="checkbox" id="<%= object_id_cb %>"
                 disabled=""><label class="custom-control-label" for="<%= object_id_cb %>"></label></div>

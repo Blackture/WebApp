@@ -6,7 +6,10 @@ const { render } = require('ejs');
 const botStopViaWebInterface = require('../discord_bot/src/commands/stopViaWebInterface');
 const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
-const { user } = require('../discord_bot/src/bot.js');
+const path = require('path');
+var fs = require('fs');
+const { FILE } = require('dns');
+const { waitForDebugger } = require('inspector');
 
 //login page
 router.get('/', (req, res) => {
@@ -20,6 +23,16 @@ router.get('/docs', ensureAuthenticated, (req, res) => {
     });
 })
 
+/*router.get('/proj_status_as_svg', ensureAuthenticated, (req, res) => {
+    var user = req.user;
+    var accountLvl = 0;
+    var accountLvl = (user.accountType == 'owner') ? 0 : (user.accountType == 'admin') ? 1 : (user.accountType == 'developer') ? 2 : (user.accountType == 'mod') ? 3 : (user.accountType == 'tester') ? 4 : (user.accountType == 't-sub/yt-member') ? 5 : (user.accountType == 't-follower/yt-sub') ? 6 : (user.accountType == 'five-year-member') ? 7 : (user.accountType == 'one-year-member') ? 8 : (user.accountType == 'normal') ? 9 : 10;
+    if (accountLvl <= 2) {
+        var img = req.query.data;
+        res.send('<img src="' + img + '" />')
+    }
+})*/
+
 router.get('/bot', ensureAuthenticated, (req, res) => {
     //console.log("got sth")
     res.render('bot', {
@@ -30,7 +43,7 @@ router.get('/bot', ensureAuthenticated, (req, res) => {
 
 router.get('/bot_stop', ensureAuthenticated, (req, res) => {
     //console.log("got sth")
-    var user =  req.user;
+    var user = req.user;
     var accountLvl = 0;
     var accountLvl = (user.accountType == 'owner') ? 0 : (user.accountType == 'admin') ? 1 : (user.accountType == 'developer') ? 2 : (user.accountType == 'mod') ? 3 : (user.accountType == 'tester') ? 4 : (user.accountType == 't-sub/yt-member') ? 5 : (user.accountType == 't-follower/yt-sub') ? 6 : (user.accountType == 'five-year-member') ? 7 : (user.accountType == 'one-year-member') ? 8 : (user.accountType == 'normal') ? 9 : 10;
     if (accountLvl <= 1) {
@@ -52,7 +65,59 @@ router.get('/bot_start', ensureAuthenticated, (req, res) => {
     res.redirect('/bot');
 })
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+} //https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+
+async function dl(path, res) {
+    try {
+        await res.download(path, err => {
+            if (err) {
+                success = false;
+            }
+            else success = true;
+        });
+        await sleep(1000);
+        if (success) {
+            fs.unlink(path, err => { console.log(err) });
+        }
+    } catch { }
+}
+var p = ""
+var success = false;
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
+    if (req.query.downloadCsv) {
+        var strA = req.query.downloadCsv.toString().split(';');
+        var str = "";
+        for (var i = 0; i < strA.length; i++) {
+            str += (i == 0) ? strA[i] : "\r\n" + strA[i];
+        }
+        console.log(str);
+        var date = new Date(Date.now())
+        var dateStr = date.toUTCString().replace(RegExp("[0-9]{2}:[0-9]{2}:[0-9]{2} "), "").replace(/\s/g, '');
+        p = path.join(__dirname, "/../project_status[" + dateStr + "].csv");
+        try {
+            fs.writeFileSync(p, str);
+            console.log("go");
+            success = true;
+        } catch (err) {
+            if (err) {
+                console.log(err)
+            }
+        }
+        var exists = false;
+        while (!exists) {
+            try {
+                if (fs.existsSync(p)) {
+                    exists = true;
+                    console.log("exists")
+                }
+            } catch (err) {
+                if (err) console.error(err);
+            }
+        }
+        return dl(p, res);
+    }
     Project.find({}, (err, projects) => {
         res.render('dashboard', {
             title: "Dashboard",
@@ -76,37 +141,37 @@ var idArray = [''], titleArray = [''], AccountTypeArray = [''], pw_change = ['']
 
 router.post('/profile_table', ensureAuthenticated, (req, res) => {
     console.log(JSON.stringify(req.body));
-        User.find({}).exec((err, users) => {
-            idArray = req.body.id;
-            titleArray = req.body.title;
-            AccountTypeArray = req.body.AccountType;
-            pw_change = req.body.pw_change;   
-            for (var i = 0; i < idArray.length; i++){
-                if (idArray.includes(users[i].id)) {
-                    var data = {
-                    };
-                    if (pw_change[i] == "" || !pw_change[i]) {
-                        data = {
-                            title: titleArray[i],
-                            accountType: AccountTypeArray[i]
-                        }
-                    } else {
-                        data = {
-                            title: titleArray[i],
-                            accountType: AccountTypeArray[i],
-                            password: ""
-                        }
-                        bcrypt.genSalt(10, (err, salt) =>
+    User.find({}).exec((err, users) => {
+        idArray = req.body.id;
+        titleArray = req.body.title;
+        AccountTypeArray = req.body.AccountType;
+        pw_change = req.body.pw_change;
+        for (var i = 0; i < idArray.length; i++) {
+            if (idArray.includes(users[i].id)) {
+                var data = {
+                };
+                if (pw_change[i] == "" || !pw_change[i]) {
+                    data = {
+                        title: titleArray[i],
+                        accountType: AccountTypeArray[i]
+                    }
+                } else {
+                    data = {
+                        title: titleArray[i],
+                        accountType: AccountTypeArray[i],
+                        password: ""
+                    }
+                    bcrypt.genSalt(10, (err, salt) =>
                         bcrypt.hash(pw_change[i], salt,
                             (err, hash) => {
                                 if (err) throw err;
                                 //save pass to hash
                                 data.password = hash;
                             }));
-                    }
-                    ProfileChange(users[i], data, res).catch(e => console.log(e));
                 }
+                return ProfileChange(users[i], data, res).catch(e => console.log(e));
             }
+        }
     })
 })
 

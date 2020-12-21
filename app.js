@@ -52,6 +52,7 @@ app.use(session({
 //Routes
 app.use('/',require('./routes/index').router);
 app.use('/users',require('./routes/users'));
+app.use('/docs',require('./routes/docs'));
 app.use(express.static(__dirname + '/assets'));
 
 app.get('*', ensureAuthenticated, function(req, res){

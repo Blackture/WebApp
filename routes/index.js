@@ -2,25 +2,15 @@ const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require("../config/auth.js");
 const Project = require('../models/project.js');
-const { render } = require('ejs');
 const botStopViaWebInterface = require('../discord_bot/src/commands/stopViaWebInterface');
 const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
 const path = require('path');
 var fs = require('fs');
-const { FILE } = require('dns');
-const { waitForDebugger } = require('inspector');
 
 //login page
 router.get('/', (req, res) => {
     res.redirect('/users/login');
-})
-
-router.get('/docs', ensureAuthenticated, (req, res) => {
-    res.render('Docs/docs', {
-        user: req.user,
-        title: "Docs"
-    });
 })
 
 /*router.get('/proj_status_as_svg', ensureAuthenticated, (req, res) => {

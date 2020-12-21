@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html>
-
+<% var accountLvl = 0; %>
+<% var accountLvl = (user.accountType == 'owner') ? 0 : (user.accountType == 'admin') ? 1 : (user.accountType == 'developer') ? 2 : (user.accountType == 'mod') ? 3 : (user.accountType == 'tester') ? 4 : (user.accountType == 't-sub/yt-member') ? 5 : (user.accountType == 't-follower/yt-sub') ? 6 : (user.accountType == 'five-year-member') ? 7 : (user.accountType == 'one-year-member') ? 8 : (user.accountType == 'normal') ? 9 : 10; %>
+<% if (accountLvl <= 2) { %>
+<!DOCTYPE>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -206,20 +207,20 @@
                                                 <td>discord</td>
                                             </tr>
                                             <tr>
-                                                <td><a href="./Docs/Administrative Page/User.html">User</a></td>
+                                                <td><a href="/docs/administrative_page/user">User</a></td>
                                                 <td>"models/user"</td>
                                                 <td>JavaScript</td>
                                                 <td>MongoDB Scheme</td>
                                                 <td>username<br>firstname<br>lastname<br>email<br>password<br>accountType<br>address<br>city<br>country<br>profileIMG<br>projectAccess<br>date</td>
                                             </tr>
                                             <tr>
-                                                <td><a href="Administrative Page/Project.html">Project</a></td>
+                                                <td><a href="/docs/administrative_page/project">Project</a></td>
                                                 <td>"models/project"</td>
                                                 <td>JavaScript</td>
                                                 <td>MongoDB Scheme</td>
-                                                <td><a href="Administrative Page/Project/name.html">name</a><br><a href="Administrative Page/Project/iconUrl.html">iconUrl</a><br><a href="Administrative Page/Project/progress.html">progress</a><br><a href="Administrative Page/Project/version.html">version</a><br>
+                                                <td><a href="/docs/administrative_page/project/name">name</a><br><a href="/docs/administrative_page/project/iconUrl">iconUrl</a><br><a href="/docs/administrative_page/project/progress">progress</a><br><a href="/docs/administrative_page/project/version">version</a><br>
                                                     <a
-                                                        href="Administrative Page/Project/state.html">state</a><br><a href="Administrative Page/Project/downloadUrl.html">downloadUrl</a><br><a href="Administrative Page/Project/visibility.html">visibility</a><br><a href="Administrative Page/Project/date.html">date</a></td>
+                                                        href="/docs/administrative_page/project/state">state</a><br><a href="/docs/administrative_page/project/downloadUrl">downloadUrl</a><br><a href="/docs/administrative_page/project/visibility">visibility</a><br><a href="/docs/administrative_page/project/date">date</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -270,14 +271,14 @@
                                                     <div class="card-body">
                                                         <p class="card-text" style="margin-bottom: 0px;">Location:&nbsp;"models/project"<br>Language: JavaScript<br>Type: MongoDB Scheme<br>Properties:</p>
                                                         <ul style="padding-left: 40px;">
-                                                            <li><a href="Administrative Page/Project/name.html">name</a></li>
-                                                            <li><a href="Administrative Page/Project/iconUrl.html">iconUrl</a></li>
-                                                            <li><a href="Administrative Page/Project/progress.html">progress</a></li>
-                                                            <li><a href="Administrative Page/Project/version.html">version</a></li>
-                                                            <li><a href="Administrative Page/Project/state.html">state</a></li>
-                                                            <li><a href="Administrative Page/Project/downloadUrl.html">downloadUrl</a></li>
-                                                            <li><a href="Administrative Page/Project/visibility.html">visibility</a></li>
-                                                            <li><a href="Administrative Page/Project/date.html">date</a></li>
+                                                            <li><a href="Administrative Page/Project/name">name</a></li>
+                                                            <li><a href="Administrative Page/Project/iconUrl">iconUrl</a></li>
+                                                            <li><a href="Administrative Page/Project/progress">progress</a></li>
+                                                            <li><a href="Administrative Page/Project/version">version</a></li>
+                                                            <li><a href="Administrative Page/Project/state">state</a></li>
+                                                            <li><a href="Administrative Page/Project/downloadUrl">downloadUrl</a></li>
+                                                            <li><a href="Administrative Page/Project/visibility">visibility</a></li>
+                                                            <li><a href="Administrative Page/Project/date">date</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -363,4 +364,5 @@
     <script src="/js/script.min.js"></script>
 </body>
 
-</html>
+<>
+<% } %>

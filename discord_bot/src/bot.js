@@ -1,14 +1,15 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const { token, prefix, commandArray } = require("./secrets/config");
-const execute = require("./commands/handler");
+const handler = require("./commands/handler");
 
 client.on('message', msg => {
   commandArray.forEach(function (command){
     if (msg.content.startsWith(prefix + command)) {
-      execute(command, msg, client);
+      handler.execute(command, msg, client);
     }
   })
+  handler.censorer(msg, client);
 });
 
 

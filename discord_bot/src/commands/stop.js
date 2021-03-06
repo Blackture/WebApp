@@ -5,16 +5,16 @@ function botStop(msg, client) {
         const embed = new Discord.MessageEmbed()
         .setTitle(":white_check_mark: Success")
         .setColor('0x00ff44')
-        .setDescription("Deleted " + (int - 1).toString() + " message(s).")
+        .setDescription("Shutting down discord bot")
         .setTimestamp(Date.now)
         .setAuthor(client.user.tag) //and this its profile pic)
-        .addField("Command", "clear")
+        .addField("Command", "stop")
         //.setImage()
         .setThumbnail(client.user.avatarUrl);
-        msg.channel.send(embed)   
-        .then(m => {client.destroy()})
-        .then(m => {console.log("Shutting down the discord bot.")});
-        break;
+        msg.channel.send(embed)
+        .then(m => {console.log("Shutting down the discord bot.")})   
+        .then(m => {client.destroy()});
+        return;
     }
   }
 

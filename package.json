@@ -21,7 +21,7 @@
     "serve-favicon": "^2.5.0"
   },
   "engines": {
-    "node": "12.10.11"
+    "node": "6.11.1"
   },
   "repository": {
     "type": "git",

@@ -1,11 +1,11 @@
 {
-  "type": "module",
+  "type": "commonjs",
   "name": "app",
   "version": "1.0.0",
   "description": "login",
   "main": "app.js",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "discord.js": "^12.5.1",
     "ejs": "^3.1.5",
@@ -16,13 +16,12 @@
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.7",
     "node": "^15.4.0",
-    "node-gyp": "^7.1.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.5.0"
   },
   "engines": {
-    "node": "12.11.1"
+    "node": "12.10.11"
   },
   "repository": {
     "type": "git",

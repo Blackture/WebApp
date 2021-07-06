@@ -1,7 +1,9 @@
 const Discord = require("discord.js");
 
 function botStop(msg, client) {
+  
     if (msg.author.tag === 'Blackture#4509') {
+        client.isOn = false;
         const embed = new Discord.MessageEmbed()
         .setTitle(":white_check_mark: Success")
         .setColor('0x00ff44')

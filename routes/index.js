@@ -4,7 +4,7 @@ const { ensureAuthenticated } = require("../config/auth.js");
 const Project = require('../models/project.js');
 const botStopViaWebInterface = require('../discord_bot/src/commands/stopViaWebInterface');
 const User = require('../models/user.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const path = require('path');
 var fs = require('fs');
 
@@ -37,9 +37,9 @@ router.get('/bot_stop', ensureAuthenticated, (req, res) => {
     var accountLvl = 0;
     var accountLvl = (user.accountType == 'owner') ? 0 : (user.accountType == 'admin') ? 1 : (user.accountType == 'developer') ? 2 : (user.accountType == 'mod') ? 3 : (user.accountType == 'tester') ? 4 : (user.accountType == 't-sub/yt-member') ? 5 : (user.accountType == 't-follower/yt-sub') ? 6 : (user.accountType == 'five-year-member') ? 7 : (user.accountType == 'one-year-member') ? 8 : (user.accountType == 'normal') ? 9 : 10;
     if (accountLvl <= 1) {
-        botStopViaWebInterface();
+            botStopViaWebInterface();
     }
-    res.redirect('/dashboard');
+    res.redirect('/bot');
 })
 
 router.get('/bot_start', ensureAuthenticated, (req, res) => {

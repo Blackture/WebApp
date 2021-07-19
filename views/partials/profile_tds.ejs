@@ -10,9 +10,8 @@
 <% var usr_title = usr.title; %>
 <tr>
     <td style="display: none;">
-        <input name="id" value="<%= usr._id %>" style="display: none;" readonly=""/>
-        <div class="custom-control custom-checkbox epischerToggle"><input name="toggle" class="custom-control-input <%= usr._id %>" type="checkbox" id="<%= object_id_cb %>"
-                disabled=""><label class="custom-control-label" for="<%= object_id_cb %>"></label></div>
+        <input name="id" value="<%= usr._id %>" readonly="" style="display: none;"/>
+        <input id="<%= usr._id %>" name="toggle" value="off" readonly="" style="display: none;"/>
     </td>
     <% if (usr.title == "") { %>
         <td><img class="rounded-circle mr-2" width="30" height="30" src="<%= usr.profileIMG %>"><%= usr.username %> <select name="title" id="<%= object_id_ddT %>" style="height: 33px; width: fit-content;" onchange="edited('<%= usr._id %>', 'ddT', '<%= object_id_dd %>', '<%= object_id_ddT %>', '<%= object_id_tb %>', '<%= object_id_cb %>', '<%= usr.accountType %>', '<%= usr.title %>')" style="height: 33px;"

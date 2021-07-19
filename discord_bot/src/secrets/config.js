@@ -1,5 +1,10 @@
+const { ALPN_ENABLED } = require("constants");
+
 const discordToken = 'NzI3NjA4MzA2NTQ1MTk3MTA3.XvuUCg.7GulknncsMapUxo1HkLbkIaeFKU';
-const prefix = '.';
+const publicKey = "1cdddf92e13d51ec7a1031e380b4909206807f2b6afad54108798237d8acf98b";
+const applicationId = "727608306545197107";
+
+const prefix = '/';
 const commands = [
     'stop',
     'clear'
@@ -121,4 +126,4 @@ const forbiddenWords = [
 ];
 
 
-module.exports = { token: discordToken, prefix: prefix, commandArray: commands, forbiddenWords: forbiddenWords };
+module.exports = { token: discordToken, prefix: prefix, commandArray: commands, forbiddenWords: forbiddenWords, publicKey: publicKey, applicationId: applicationId };

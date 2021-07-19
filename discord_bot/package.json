@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "src/bot.js",
   "dependencies": {
-    "discord.js": "^12.4.1"
+    "discord.js": "^12.4.1",
+    "slash-commands": "^1.4.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/bot.js"

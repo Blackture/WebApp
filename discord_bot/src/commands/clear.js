@@ -1,24 +1,9 @@
 const Discord = require("discord.js");
 var int = 0;
 
-function clear(msg, client) {
-    var message = msg.content.trim();
-    var messageSplit = message.split(' ');
-    if (messageSplit.length > 2 && messageSplit.length < 2) {
-        const embed = new Discord.MessageEmbed()
-            .setTitle(":skull_crossbones: Error")
-            .setColor('0xff0000')
-            .setDescription("Too many arguments")
-            .setTimestamp(Date.now)
-            .setFooter("For more help: .help")
-            .setAuthor(client.user.tag) //and this its profile pic)
-            .addField("Command", "clear")
-            //.setImage()
-            .setThumbnail(client.user.avatarUrl);
-        msg.channel.send(embed);
-    }
-    else {
-        int = parseInt(messageSplit[1], 10) + 1;
+function clear(options, client) {
+    try {
+        int = options[0];
         msg.channel.bulkDelete(int)
             .then(() => {
                 const embed = new Discord.MessageEmbed()
@@ -30,8 +15,7 @@ function clear(msg, client) {
                     .addField("Command", "clear")
                     //.setImage()
                     .setThumbnail(client.user.avatarUrl);
-                msg.channel.send(embed);
-                return;
+                return embed;
             })
             .catch((err) => {
                 console.log(err.message);
@@ -45,9 +29,23 @@ function clear(msg, client) {
                     .addField("Command", "clear")
                     //.setImage()
                     .setThumbnail(client.user.avatarUrl);
-                msg.channel.send(embed);
-                return;
-            });
+                return embed;
+            })
+
+    }
+    catch (e) {
+        console.log(e.message);
+        const embed = new Discord.MessageEmbed()
+            .setTitle(":skull_crossbones: Error")
+            .setColor('0xff0000')
+            .setDescription(e.message)
+            .setTimestamp(Date.now)
+            .setFooter("For more help: .help")
+            .setAuthor(client.user.tag) //and this its profile pic)
+            .addField("Command", "clear")
+            //.setImage()
+            .setThumbnail(client.user.avatarUrl);
+        return embed;
     }
 }
 

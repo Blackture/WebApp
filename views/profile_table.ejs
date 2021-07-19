@@ -192,7 +192,7 @@
                                     <table class="table my-0">
                                         <thead>
                                             <tr>
-                                                <th style="display: none;"></th>
+                                                <th style="display: none;">Checked</th>
                                                 <th>Username</th>
                                                 <th>Full Name</th>
                                                 <th>Email</th>
@@ -209,21 +209,21 @@
                                                 function edited(oid, inputType, object_id_dd = "", object_id_ddT = "", object_id_tb = "", object_id_cb = "", usr_accountType = "", usr_title = "") {
                                                     if (inputType == 'tb') {
                                                             if ($('#' + object_id_tb).val() != "") {
-                                                                document.querySelector('#' + object_id_cb).checked = true;
+                                                                document.getElementById(oid).value = "on";
                                                             } else {
-                                                                document.querySelector('#' + object_id_cb).checked = false;
+                                                                document.getElementById(oid).value = "off";
                                                             }
                                                     }   else if (inputType == 'dd') {
                                                             if ($('#' + object_id_dd).val() != usr_accountType) {
-                                                                document.querySelector('#' + object_id_cb, "input").checked = true;
+                                                                document.getElementById(oid).value = "on";
                                                             } else {
-                                                                document.querySelector('#' + object_id_cb, "input").checked = false;
+                                                                document.getElementById(oid).value = "off";
                                                             }
                                                     }   else if (inputType == 'ddT') {
                                                             if ($('#' + object_id_ddT).val() != usr_title) {
-                                                                document.querySelector('#' + object_id_cb).checked = true;
+                                                                document.getElementById(oid).value = "on";
                                                             } else {
-                                                                document.querySelector('#' + object_id_cb).checked = false;
+                                                                document.getElementById(oid).value = "off";
                                                         }
                                                     }
                                                 }

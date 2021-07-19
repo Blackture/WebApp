@@ -7,6 +7,7 @@ const User = require('../models/user.js');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 var fs = require('fs');
+const { ObjectId } = require('mongodb');
 
 //login page
 router.get('/', (req, res) => {
@@ -37,7 +38,7 @@ router.get('/bot_stop', ensureAuthenticated, (req, res) => {
     var accountLvl = 0;
     var accountLvl = (user.accountType == 'owner') ? 0 : (user.accountType == 'admin') ? 1 : (user.accountType == 'developer') ? 2 : (user.accountType == 'mod') ? 3 : (user.accountType == 'tester') ? 4 : (user.accountType == 't-sub/yt-member') ? 5 : (user.accountType == 't-follower/yt-sub') ? 6 : (user.accountType == 'five-year-member') ? 7 : (user.accountType == 'one-year-member') ? 8 : (user.accountType == 'normal') ? 9 : 10;
     if (accountLvl <= 1) {
-            botStopViaWebInterface();
+        botStopViaWebInterface();
     }
     res.redirect('/bot');
 })
@@ -127,47 +128,47 @@ router.get('/profile_table', ensureAuthenticated, (req, res) => {
     });
 })
 
-var idArray = [''], titleArray = [''], AccountTypeArray = [''], pw_change = [''];
+var idArray = [''], titleArray = [''], AccountTypeArray = [''], pw_change = [''], checkArray = [];
 
 router.post('/profile_table', ensureAuthenticated, (req, res) => {
     console.log(JSON.stringify(req.body));
-    User.find({}).exec((err, users) => {
-        idArray = req.body.id;
-        titleArray = req.body.title;
-        AccountTypeArray = req.body.AccountType;
-        pw_change = req.body.pw_change;
-        for (var i = 0; i < idArray.length; i++) {
-            if (idArray.includes(users[i].id)) {
-                var data = {
-                };
-                if (pw_change[i] == "" || !pw_change[i]) {
-                    data = {
-                        title: titleArray[i],
-                        accountType: AccountTypeArray[i]
-                    }
-                } else {
-                    data = {
-                        title: titleArray[i],
-                        accountType: AccountTypeArray[i],
-                        password: ""
-                    }
-                    bcrypt.genSalt(10, (err, salt) =>
-                        bcrypt.hash(pw_change[i], salt,
-                            (err, hash) => {
-                                if (err) throw err;
-                                //save pass to hash
-                                data.password = hash;
-                            }));
+    idArray = req.body.id;
+    checkArray = req.body.toggle;
+    titleArray = req.body.title;
+    AccountTypeArray = req.body.AccountType;
+    pw_change = req.body.pw_change;
+    for (var i = 0; i < idArray.length; i++) {
+        if (checkArray[i] == 'on') {
+            var data = {
+            };
+            if (pw_change[i] == "" || !pw_change[i]) {
+                data = {
+                    title: titleArray[i],
+                    accountType: AccountTypeArray[i]
                 }
-                return ProfileChange(users[i], data, res).catch(e => console.log(e));
+            } else {
+                data = {
+                    title: titleArray[i],
+                    accountType: AccountTypeArray[i],
+                    password: ""
+                }
+                bcrypt.genSalt(10, (err, salt) =>
+                    bcrypt.hash(pw_change[i], salt,
+                        (err, hash) => {
+                            if (err) throw err;
+                            //save pass to hash
+                            data.password = hash;
+                        }));
             }
+            console.log(data);
+            return ProfileChange(idArray[i], data, res).catch(e => console.log(e));
         }
-    })
+    }
 })
 
 
-async function ProfileChange(user, data, res) {
-    await user.updateOne(data, function (err, doc) {
+async function ProfileChange(id, data, res) {
+    await User.updateOne({_id: new ObjectId(id)}, data, function (err, doc) {
         if (err) console.log(err);
     })
         .then(() => {
@@ -344,4 +345,4 @@ router.get('/dashboard_change', ensureAuthenticated, (req, res, next) => {
     })
 })
 
-module.exports = { router, SyncAccess }; 
+module.exports = { router, SyncAccess };

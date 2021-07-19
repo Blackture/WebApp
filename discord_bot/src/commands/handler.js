@@ -4,12 +4,12 @@ const { forbiddenWords } = require("./../secrets/config");
 const Discord = require('discord.js');
 const { Warn } = require("./../Warning")
 
-function execute(command, message, client) {
+function execute(command, options, client) {
     if (command === 'stop') {
-        botStop(message, client);
+        botStop(options, client);
     }
     else if (command === 'clear') {
-        clear(message, client);
+        return clear(options, client);
     }
 }
 

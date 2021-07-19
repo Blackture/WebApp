@@ -7,7 +7,8 @@ const User = require('../models/user.js');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 var fs = require('fs');
-const { ObjectId } = require('mongodb');
+const License = require('../models/license.js');
+const mongoose = require('mongoose');
 
 //login page
 router.get('/', (req, res) => {
@@ -168,10 +169,11 @@ router.post('/profile_table', ensureAuthenticated, (req, res) => {
 
 
 async function ProfileChange(id, data, res) {
-    await User.updateOne({_id: new ObjectId(id)}, data, function (err, doc) {
+    await User.updateOne({ _id: new ObjectId(id) }, data, function (err, doc) {
         if (err) console.log(err);
     })
         .then(() => {
+            SyncAccess();
             res.redirect('back');
         })
         .catch(value => { console.log(value); res.redirect('/dashboard'); });
@@ -213,8 +215,8 @@ router.get('/change_project', ensureAuthenticated, (req, res, next) => {
             user: req.user,
             query: req.query,
             projects: projects
-        });
-    })
+        })
+    });
 })
 
 router.post('/change_project', ensureAuthenticated, (req, res) => {
@@ -259,6 +261,54 @@ router.get('/sync_access', ensureAuthenticated, (req, res) => {
     SyncAccess();
     res.redirect('/dashboard');
 })
+
+router.get('/activate_license', ensureAuthenticated, (req, res) => {
+    res.render('activate_license', {
+        title: "Activate License",
+        user: req.user,
+        query: req.query
+    });
+})
+
+router.post('/activate_license', ensureAuthenticated, (req, res) => {
+    console.log(req.body);
+    const { key, uuid } = req.body;
+    let errors = [];
+
+    License.findOne({ _id: key }).exec((err, license) => {
+        if (err) { errors.push(err); return; }
+        if (license == null) errors.push("Pleasy fill in at least the name, progress and version!");
+
+        console.log(license);
+
+        if (!license.used) {
+
+            var newLicense = {
+                project: license.project,
+                used: true,
+                uuid: mongoose.Types.ObjectId(req.user.id),
+                filters: [license.filters[0], req.user.email]
+            }
+
+            AssignLicense(license, newLicense, res);
+        }
+        else {
+            errors.push("This license has already been assigned to an user!"); return;
+        }
+    });
+})
+
+async function AssignLicense(license, newLicense, res) {
+    await license.updateOne(newLicense, function (err, doc) {
+        if (err) console.log(err);
+    })
+        .then(() => {
+            SyncAccess();
+            res.redirect('/dashboard');
+        })
+        .catch(value => { console.log(value); res.redirect('/dashboard'); });
+}
+
 
 function SyncAccess() {
     User.find({}, (err, users) => {

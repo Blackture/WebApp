@@ -299,7 +299,7 @@ router.post('/activate_license', ensureAuthenticated, (req, res) => {
 })
 
 async function AssignLicense(license, newLicense, res) {
-    await license.updateOne(newLicense, function (err, doc) {
+    await license.updateOne(newLicense, function (err) {
         if (err) console.log(err);
     })
         .then(() => {
@@ -313,7 +313,17 @@ async function AssignLicense(license, newLicense, res) {
 function SyncAccess() {
     User.find({}, (err, users) => {
         users.forEach(function (user) {
+
             var projectsAccess = "";
+
+            License.find({ uuid: user.id }).exec((err, licenses) => {
+                licenses.forEach(function (license) {
+                    if (!projectsAccess.includes(license.filters[0].replace(" ", "-"))) {
+                        projectsAccess += license.filters[0].replace(" ", "-") + "=2;";
+                    }
+                });
+            })
+
             Project.find({}, (err, projects) => {
                 projects.forEach(function (project) {
                     var state = project.state;
@@ -323,17 +333,20 @@ function SyncAccess() {
                     var visibility = project.visibility;
                     var accountLvl = 0;
                     var accountLvl = (user.accountType == 'owner') ? 0 : (user.accountType == 'admin') ? 1 : (user.accountType == 'developer') ? 2 : (user.accountType == 'mod') ? 3 : (user.accountType == 'tester') ? 4 : (user.accountType == 't-sub/yt-member') ? 5 : (user.accountType == 't-follower/yt-sub') ? 6 : (user.accountType == 'five-year-member') ? 7 : (user.accountType == 'one-year-member') ? 8 : (user.accountType == 'normal') ? 9 : 10;
-                    if (accountLvl <= 4) {
-                        projectsAccess += _projName + ":3"
-                    } else {
-                        if (splState[1] == "open") {
-                            projectsAccess += _projName + ":2"
-                        } else if (visibility == "Public") {
-                            projectsAccess += _projName + ":1"
+                    if (!projectsAccess.includes(_projName)) {
+                        if (accountLvl <= 4) {
+                            projectsAccess += _projName + "=3;"
                         } else {
-                            projectsAccess += _projName + ":0"
+                            if (splState[1] == "open") {
+                                projectsAccess += _projName + "=2;"
+                            } else if (visibility == "Public") {
+                                projectsAccess += _projName + "=1;"
+                            } else {
+                                projectsAccess += _projName + "=0;"
+                            }
                         }
                     }
+
                     user.updateOne({ projectAccess: projectsAccess })
                         .catch(e => console.log(e))
                 })

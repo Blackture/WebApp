@@ -4,20 +4,20 @@
 <% var projectAccesses = projAccesses.split(';'); %>
 
 <% projectAccesses.forEach(function(access) { %>
-    <% if (access.includes("Devils-Hunt")) { %>
-        <% var splAccess = access.split(':'); %>
-        <% if (splAccess[1].includes("0")) { %>
-        <% accessLevel = 0; %>
-        <% } %> 
-        <% if (splAccess[1].includes("1")) { %> 
-        <% accessLevel = 1; %> 
-        <% } %> 
-        <% if (splAccess[1].includes("2")) { %>
-        <% accessLevel = 2; %>
-        <% } %>
-        <% if (splAccess[1].includes("3")) { %>
-        <% accessLevel = 3; %>
-        <% } %>
+        <% if (access.includes(proj.name.replace(" ", "-"))) { %>
+            <% var splAccess = access.split('='); %>
+            <% if (splAccess[1].includes("0")) { %>
+                <% accessLevel = 0; %>
+            <% } %> 
+            <% if (splAccess[1].includes("1")) { %> 
+                    <% accessLevel = 1; %> 
+            <% } %> 
+            <% if (splAccess[1].includes("2")) { %>
+                <% accessLevel = 2; %>
+            <% } %>
+            <% if (splAccess[1].includes("3")) { %>
+                <% accessLevel = 3; %>
+            <% } %>
     <% } %>
 <% }); %> 
 
@@ -26,17 +26,11 @@
 
 <% if (accessLevel >= 1 || accountLvl <= 1 || user.projectAccess == "all:admin") { %> 
 <h4 class="small font-weight-bold"><%= proj.name %>
-    <% if (!proj.state.includes("NoRelease")) { %>
-        <% var projState = proj.state; %> 
-        <% var projStateArray = projState.split(':'); %>
-        <% if (projStateArray[1] == "open") { %>
-            <% if (accessLevel >= 2) { %>
-                <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
-            <% } %>
-            <% } else if (accountLvl <= 4 || accessLevel >= 3) { %>
-                <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
-            <% } %>
-        <% } %>
+    <% if (accessLevel >= 2) { %>
+        <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
+    <% } else if (accountLvl <= 4 || accessLevel >= 3) { %>
+        <a style="margin-left: 1%;" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="<%= proj.downloadUrl %>">Download</a>
+    <% } %>
     <% if (accountLvl <= 1) { %>
         <a id="<%= proj._id %>" class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="/change_project?id=<%= proj._id %>">Change</a>
     <% } %>

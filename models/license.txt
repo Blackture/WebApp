@@ -1,0 +1,10 @@
+the objectID string in _id is the licenseKey too.
+uuid is the user which should be asscosiciated to
+project is the assosciated project
+used is true if the license has already be assigned to an account
+filters an string array to sort licenses
+- projectName
+- userEmail
+
+-----------------------
+TODO
